@@ -7,51 +7,130 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div id="logo">
-        <h3>McKayla Irish</h3>
+  <!-- Matrix Rain Background -->
+  <canvas id="matrix-bg"></canvas>
+
+  <!-- Sidebar -->
+  <div id="side-content">
+    <div id="contacts">
+      <h2 class="contact-label">Contacts</h2>
+      <p class="contact-item">
+        <img src="Images/Phone.png"> 
+        520-528-7428
+      </p>
+      <p class="contact-item">
+        <img src="Images/Email.png"> 
+        mckayla.irish@gmail.com
+      </p>
+      <p class="contact-item">
+        <img src="Images/Location.png"> 
+        Vail, AZ
+      </p>
+      <p class="contact-item">
+        <img src="Images/Github.png"> 
+        Github/McKIrish
+      </p>
+       <p class="contact-item">
+        <img src="Images/Linkedin.png"> 
+        Linkedin
+      </p>
     </div>
-    <nav>
-      <a href="#about">About Me</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <section id="hero">
-    <h2>Cybersecurity Student & Aspiring Analyst</h2>
-    <p>Focused on Python scripting, Linux security, and hands-on projects.</p>
-  </section>
-
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I’m a cybersecurity student at the University of Arizona interested in digital forensics and network defense. Experienced in Python, Bash, Linux, and web development.</p>
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project">
-      <h3>Password Strength Checker</h3>
-      <p>Python tool to evaluate password entropy and check against known weak lists.</p>
-      <a href="https://github.com/yourusername/password-checker" target="_blank">View on GitHub</a>
+    <div id="side-nav">
+      <h2>About Me</h2>
+      <h2>Projects</h2>
+      <h2>Skills</h2>
     </div>
-    <div class="project">
-      <h3>Log Analyzer</h3>
-      <p>Bash/Python script to detect brute-force attempts in Linux logs.</p>
-      <a href="https://github.com/yourusername/log-analyzer" target="_blank">View on GitHub</a>
+  </div>
+
+  <!-- Main content -->
+  <div id="main-content">
+    <div id="header">
+      <h1>McKayla Irish</h1>
     </div>
-    <!-- Add more projects as you go -->
-  </section>
+    <div id="content">
+        <div id="intro">
+          <h3>Hello! my name is McKayla Irish.</h3>
+          <p>I am a current student at the University of Arizona studying Cyber Oporations with an emphasis in defensive forensics.</p>
+        </div>
+        <div id="abt-me">
+          <h3>About Me</h3>
+          <p>Blah blah balh</p>
+        </div>
+        <div id="projects">
+          <h3>Projects</h3>
+          <div id="project-containters">
+            
+          </div>
+        </div>
+        <div id="skills"></div>
+    </div>
+  </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:youremail@email.com">youremail@email.com</a></p>
-    <p>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/yourusername" target="_blank">linkedin.com/in/yourusername</a></p>
-  </section>
+  <!-- Matrix Rain Script -->
+  <script>
+    // canvas + context
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
 
-  <footer>
-    <p>&copy; 2025 McKayla Irish</p>
-  </footer>
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // characters to rain
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*{}[]<>/=+';
+    const charArray = chars.split('');
+
+    const fontSize = 16;
+    let columns = Math.floor(window.innerWidth / fontSize);
+
+    // y position for each column (drops)
+    let drops = new Array(columns).fill(0);
+
+    const speed = 0.5;
+
+    let lastTime = 0;
+    const frameDelay = 50; // ms between falls. LOWER = FASTER, HIGHER = SLOWER
+
+    function draw(timestamp) {
+      if (timestamp - lastTime > frameDelay) {
+        lastTime = timestamp;
+
+        // trail / fade
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // text style
+        ctx.fillStyle = '#9900ff';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = charArray[Math.floor(Math.random() * charArray.length)];
+          const x = i * fontSize;
+          const y = drops[i] * fontSize;
+
+          ctx.fillText(text, x, y);
+
+          if (y > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+
+          drops[i] += 1; // tick distance
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+
+    // recalc columns+drops on resize
+    window.addEventListener('resize', () => {
+      columns = Math.floor(window.innerWidth / fontSize);
+      drops = new Array(columns).fill(0);
+    });
+
+    draw();
+  </script>
 </body>
 </html>
