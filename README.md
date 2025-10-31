@@ -1,4 +1,6 @@
 ## Hi there 👋
+This site is under contruction, you're more than welcome to check it out though!
+https://mckirish.github.io/Mckirish-Portfolio/
 
 <!--
 **McKIrish/Mckirish** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
